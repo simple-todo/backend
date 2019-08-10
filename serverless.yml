@@ -1,0 +1,29 @@
+service: todo-kredivo # service name
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  profile: endy
+
+# functions:
+#   app:
+#     handler: handler.hello
+#     # The `events` block defines how to trigger the http events
+#     events:
+#       - http: ANY /
+#       - http: "ANY {proxy+}"
+functions:
+  app:
+    handler: server.run
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
+plugins:
+  - serverless-offline
