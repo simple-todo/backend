@@ -1,9 +1,22 @@
 service: todo-kredivo # service name
 
+custom:
+  secrets: ${file(secrets.json)}
+
 provider:
   name: aws
   runtime: nodejs8.10
   profile: endy
+  region: ap-southeast-1
+  stage: ${self:custom.secrets.NODE_ENV}
+  environment:
+    NODE_ENV: ${self:custom.secrets.NODE_ENV}
+    DB: ${self:custom.secrets.DB}
+    DATABASE: ${self:custom.secrets.DATABASE}
+    USERNAME: ${self:custom.secrets.USERNAME}
+    PASSWORD: ${self:custom.secrets.PASSWORD}
+    HOST: ${self:custom.secrets.HOST}
+    DIALECT: ${self:custom.secrets.DIALECT}
 
 # functions:
 #   app:

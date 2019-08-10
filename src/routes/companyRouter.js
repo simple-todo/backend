@@ -1,12 +1,14 @@
-// ./lib/routes/index.js
 const express = require("express");
 const companyRouter = express.Router();
+const { users } = require("../models/index");
 
-// const { companyController } = require("../controllers");
-
-// Add more routes here if you want!
 companyRouter.get("/", (req, res) => {
-  res.send({ nama: "cioko" });
+  console.log("users: ", users);
+  users.findAll({}).then(result => {
+    console.log("res ", result);
+    res.send({ data: result });
+  });
+  // res.send({ nama: "cioko" });
 });
 
 module.exports = companyRouter;
