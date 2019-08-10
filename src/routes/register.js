@@ -1,16 +1,16 @@
 const express = require("express");
 const registerRouter = express.Router();
-// const { users } = require("../models/index");
 
-registerRouter.post("/register", (req, res) => {
-  console.log(req.body);
+const RegisterValidationMiddleware = require("../middleware/register");
+const RegisterController = require("../controllers/register");
 
-  // console.log("users: ", users);
-  // users.findAll({}).then(result => {
-  //   console.log("res ", result);
-  //   res.send({ data: result });
-  // });
-  // // res.send({ nama: "cioko" });
-});
+const registerValidationMiddleware = new RegisterValidationMiddleware();
+const registerController = new RegisterController();
+
+registerRouter.post(
+  "/register",
+  registerValidationMiddleware.checkRegisterInput,
+  (req, res) => registerController.addUser(req, res)
+);
 
 module.exports = registerRouter;
