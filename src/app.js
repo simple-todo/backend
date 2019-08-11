@@ -1,4 +1,3 @@
-// ./src/app.js
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -17,17 +16,12 @@ app.use(
 	}),
 );
 app.use(helmet());
-
-console.log("express nya jalan nih");
-
 app.use("/api" + "/test", (req, res) => {
 	res.send({ success: true });
 });
+
+// Routes
 app.use("/api" + "/user-management", registerRouter.route());
 app.use("/api" + "/user-management", loginRouter.route());
-
-app.listen(3000, () => {
-	console.log("Server listening on port " + 3000);
-});
 
 module.exports = app;
