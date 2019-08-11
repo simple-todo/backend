@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "ecedaab4-3098-44dc-98ad-6c4ed09bebb4",
+		"name": "Todo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "POST - Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "anjing",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "kucing",
+									"type": "text"
+								},
+								{
+									"key": "full_name",
+									"value": "joko",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/user-management/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user-management",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST - Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8147144e-b4c8-4157-80be-6745f5a79e71",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "ayam",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "kucing",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/user-management/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user-management",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "DELETE - Task",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "todo_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/todo-management/todos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"todo-management",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT - Task",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "todo_id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/todo-management/todos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"todo-management",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - Task",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/todo-management/todos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"todo-management",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST - Task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "task",
+									"value": "beli whiskas",
+									"type": "text"
+								},
+								{
+									"key": "isCompleted",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/todo-management/todos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"todo-management",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
