@@ -1,8 +1,9 @@
+.env
+secrets.json
+
 # package directories
 node_modules
 jspm_packages
-.env
-secrets.json
 
 # Serverless directories
 .serverless
