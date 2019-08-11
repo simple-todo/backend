@@ -1,5 +1,3 @@
-const jwt = require("jsonwebtoken");
-
 const RegisterServices = require("../services/register");
 const ResponseTemplate = require("../helpers/ResponseTemplate");
 const HashPassword = require("../helpers/HashPassword");
@@ -17,7 +15,7 @@ class RegisterController {
 		let success = true;
 
 		if (registered) {
-			message = "Failed register, User already registed";
+			message = "Failed register, Username already registed";
 			success = false;
 		}
 

@@ -20,7 +20,7 @@ class LoginController {
 	}
 
 	async checkPassword(res, password, hashPassword) {
-		const correctPassword = await this.hashPassword.verifyHast(password, hashPassword);
+		const correctPassword = await this.hashPassword.verifyHash(password, hashPassword);
 		if (correctPassword === false) {
 			let message = "Wrong password";
 			let success = false;

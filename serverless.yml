@@ -11,20 +11,12 @@ provider:
   stage: ${self:custom.secrets.NODE_ENV}
   environment:
     NODE_ENV: ${self:custom.secrets.NODE_ENV}
-    DB: ${self:custom.secrets.DB}
     DATABASE: ${self:custom.secrets.DATABASE}
     USERNAME: ${self:custom.secrets.USERNAME}
     PASSWORD: ${self:custom.secrets.PASSWORD}
     HOST: ${self:custom.secrets.HOST}
     DIALECT: ${self:custom.secrets.DIALECT}
 
-# functions:
-#   app:
-#     handler: handler.hello
-#     # The `events` block defines how to trigger the http events
-#     events:
-#       - http: ANY /
-#       - http: "ANY {proxy+}"
 functions:
   app:
     handler: server.run

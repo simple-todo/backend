@@ -3,9 +3,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
-// const routes = require("./routes");
 
-// const { companyRouter } = require("./routes");
 const RegisterRouter = require("./routes/register");
 const LoginRouter = require("./routes/login");
 
@@ -20,7 +18,11 @@ app.use(
 );
 app.use(helmet());
 
-// app.use("/api" + "/company-management", companyRouter);
+console.log("express nya jalan nih");
+
+app.use("/api" + "/test", (req, res) => {
+	res.send({ success: true });
+});
 app.use("/api" + "/user-management", registerRouter.route());
 app.use("/api" + "/user-management", loginRouter.route());
 
