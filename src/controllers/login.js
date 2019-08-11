@@ -41,6 +41,7 @@ class LoginController {
 		try {
 			const { username, password } = req.body;
 			const user = await this.loginServices.findByUsername(username);
+			console.log("user: ", user);
 
 			// If user not registered or wrong password, the process stop until here
 			this.checkRegistered(res, user);

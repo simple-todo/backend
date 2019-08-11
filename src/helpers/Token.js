@@ -6,10 +6,14 @@ class Token {
 	}
 
 	generate(userProfile) {
-		const { username, password, full_name } = userProfile;
-		return jwt.sign({ username, password, full_name }, this.secretsKey, {
+		const { id, username, password, full_name } = userProfile;
+		return jwt.sign({ id, username, password, full_name }, this.secretsKey, {
 			expiresIn: "24h", // expires in 24 hours
 		});
+	}
+
+	decode(token) {
+		return jwt.verify(token, this.secretsKey);
 	}
 }
 
