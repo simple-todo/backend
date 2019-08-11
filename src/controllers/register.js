@@ -1,19 +1,20 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 const RegisterServices = require("../services/register");
 const ResponseTemplate = require("../helpers/ResponseTemplate");
+const HashPassword = require("../helpers/HashPassword");
 
 class RegisterController {
 	constructor() {
 		this.responseTemplate = new ResponseTemplate();
 		this.registerServices = new RegisterServices();
+		this.hashPassword = new HashPassword();
 	}
 
 	userAlreadyRegistered(data) {
 		const registered = data[1] === false ? true : false;
-		const message = "Success registered User";
-		const success = true;
+		let message = "Success registered User";
+		let success = true;
 
 		if (registered) {
 			message = "Failed register, User already registed";
@@ -31,7 +32,7 @@ class RegisterController {
 			const { username, password, full_name } = req.body;
 			const newUserProfile = {
 				username,
-				password: await bcrypt.hash(password, 10), // hashed password
+				password: await this.hashPassword.createHash(password),
 				full_name,
 			};
 

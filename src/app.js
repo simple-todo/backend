@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
-const routes = require("./routes");
+// const routes = require("./routes");
 
 // const { companyRouter } = require("./routes");
 const RegisterRouter = require("./routes/register");

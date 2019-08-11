@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const ResponseTemplate = require("../helpers/ResponseTemplate");
 
-class RegisterValidationMiddleware {
+class LoginValidationMiddleware {
 	constructor() {
 		this.responseTemplate = new ResponseTemplate();
 	}
@@ -10,13 +10,12 @@ class RegisterValidationMiddleware {
 		this.responseTemplate.responseError(res, { message, status: 400 });
 	}
 
-	checkRegisterInput(req, res, next) {
+	checkLoginInput(req, res, next) {
 		try {
 			// Body Contain
 			const schema = Joi.object().keys({
 				username: Joi.string().required(),
 				password: Joi.string().required(),
-				full_name: Joi.string().required(),
 			});
 			const validateParams = Joi.validate(req.body, schema);
 
@@ -28,4 +27,4 @@ class RegisterValidationMiddleware {
 	}
 }
 
-module.exports = RegisterValidationMiddleware;
+module.exports = LoginValidationMiddleware;

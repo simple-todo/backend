@@ -1,34 +1,53 @@
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-
-const RegisterServices = require("../services/register");
+const LoginServices = require("../services/login");
 const ResponseTemplate = require("../helpers/ResponseTemplate");
-
-// buat login nanti
-// let token = jwt.sign({ username, password, full_name }, "todosKredivo", {
-//   expiresIn: "24h" // expires in 24 hours
-// });
+const HashPassword = require("../helpers/HashPassword");
+const Token = require("../helpers/Token");
 
 class LoginController {
 	constructor() {
 		this.responseTemplate = new ResponseTemplate();
-		this.registerServices = new RegisterServices();
+		this.loginServices = new LoginServices();
+		this.hashPassword = new HashPassword();
+		this.token = new Token();
 	}
 
-	async addUser(req, res, next) {
+	checkRegistered(res, user) {
+		if (user === null) {
+			let message = "Username not found";
+			let success = false;
+			this.responseTemplate.responseSuccess(res, { success, message });
+		}
+	}
+
+	async checkPassword(res, password, hashPassword) {
+		const correctPassword = await this.hashPassword.verifyHast(password, hashPassword);
+		if (correctPassword === false) {
+			let message = "Wrong password";
+			let success = false;
+
+			console.log("correctPassword: ", correctPassword);
+			this.responseTemplate.responseSuccess(res, { success, message });
+			res.json({ message: "Wrong password" });
+		}
+	}
+
+	successLogin(res, user, token) {
+		const message = "Success login";
+		const success = true;
+		this.responseTemplate.responseSuccess(res, { success, message, user, token });
+	}
+
+	async login(req, res) {
 		try {
-			const { username, password, full_name } = req.body;
-			const newUserProfile = {
-				username,
-				password: await bcrypt.hash(password, 10), // hashed password
-				full_name,
-			};
+			const { username, password } = req.body;
+			const user = await this.loginServices.findByUsername(username);
 
-			const insertNewUser = await this.registerServices.addUser(newUserProfile);
-			const checkUserAlreadyRegistered = this.userAlreadyRegistered(insertNewUser);
-			console.log("checkUserAlreadyRegistered: ", checkUserAlreadyRegistered);
+			// If user not registered or wrong password, the process stop until here
+			this.checkRegistered(res, user);
+			await this.checkPassword(res, password, user.password);
+			const userToken = this.token.generate(user);
 
-			// this.responseTemplate.responseSuccess(res, checkUserAlreadyRegistered);
+			this.successLogin(res, user, userToken);
 		} catch (error) {
 			this.responseTemplate.responseError(res, error);
 		}

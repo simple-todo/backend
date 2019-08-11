@@ -1,26 +1,23 @@
 const express = require("express");
 
-// const RegisterValidationMiddleware = require("../middleware/register");
-// const RegisterController = require("../controllers/register");
+const LoginValidationMiddleware = require("../middleware/login");
+const LoginController = require("../controllers/login");
 
 class LoginRouter {
 	constructor() {
-		// this.registerValidationMiddleware = new RegisterValidationMiddleware();
-		// this.registerController = new RegisterController();
-		this.registerRouter = express.Router();
+		this.loginValidationMiddleware = new LoginValidationMiddleware();
+		this.loginController = new LoginController();
+		this.loginRoute = express.Router();
 	}
 
 	route() {
-		this.registerRouter.post(
+		this.loginRoute.post(
 			"/login",
-			// (req, res, next) => this.registerValidationMiddleware.checkRegisterInput(req, res, next),
-			// (req, res) => this.registerController.addUser(req, res),
-			(req, res) => {
-				res.json(req.body);
-			},
+			(req, res, next) => this.loginValidationMiddleware.checkLoginInput(req, res, next),
+			(req, res) => this.loginController.login(req, res),
 		);
 
-		return this.registerRouter;
+		return this.loginRoute;
 	}
 }
 
