@@ -1,16 +1,24 @@
 const express = require("express");
-const registerRouter = express.Router();
 
 const RegisterValidationMiddleware = require("../middleware/register");
 const RegisterController = require("../controllers/register");
 
-const registerValidationMiddleware = new RegisterValidationMiddleware();
-const registerController = new RegisterController();
+class RegisterRouter {
+	constructor() {
+		this.registerValidationMiddleware = new RegisterValidationMiddleware();
+		this.registerController = new RegisterController();
+		this.registerRouter = express.Router();
+	}
 
-registerRouter.post(
-  "/register",
-  registerValidationMiddleware.checkRegisterInput,
-  (req, res) => registerController.addUser(req, res)
-);
+	route() {
+		this.registerRouter.post(
+			"/register",
+			(req, res, next) => this.registerValidationMiddleware.checkRegisterInput(req, res, next),
+			(req, res) => this.registerController.addUser(req, res),
+		);
 
-module.exports = registerRouter;
+		return this.registerRouter;
+	}
+}
+
+module.exports = RegisterRouter;

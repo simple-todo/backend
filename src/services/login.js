@@ -1,7 +1,7 @@
 const { sequelizeConnection } = require("../models/index");
 const RegisterRepo = require("../repositories/register");
 
-class RegisterServices {
+class LoginServices {
 	constructor() {
 		this.registerRepo = new RegisterRepo();
 	}
@@ -9,10 +9,10 @@ class RegisterServices {
 	async addUser(newUserProfile) {
 		const transaction = await sequelizeConnection.transaction();
 		try {
-			const addUser = await this.registerRepo.addUser(newUserProfile, transaction);
+			await this.registerRepo.addUser(newUserProfile, transaction);
 			await transaction.commit(); // Save to database if all ORM command success
 
-			return addUser;
+			return { message: "Success add new User" };
 		} catch (error) {
 			await transaction.rollback(); // Cancel all ORM success command if any error
 			throw error;
@@ -20,4 +20,4 @@ class RegisterServices {
 	}
 }
 
-module.exports = RegisterServices;
+module.exports = LoginServices;

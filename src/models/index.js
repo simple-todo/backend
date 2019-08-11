@@ -8,19 +8,16 @@ pg.defaults.ssl = true;
 const users = require("./users");
 const todos = require("./todos");
 
-const {
-  DATABASE,
-  USERNAME,
-  PASSWORD,
-  HOST: host,
-  DIALECT: dialect
-} = process.env;
+const { DATABASE, USERNAME, PASSWORD, HOST: host, DIALECT: dialect } = process.env;
 const sequelizeConnection = new Sequelize(DATABASE, USERNAME, PASSWORD, {
-  host,
-  dialect
+	logging: process.env.NODE_ENV === "dev" ? console.log : null,
+	isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE || "SERIALIZABLE",
+	host,
+	dialect,
 });
 
 module.exports = {
-  users: users(sequelizeConnection, Sequelize.DataTypes),
-  todos: todos(sequelizeConnection, Sequelize.DataTypes)
+	sequelizeConnection,
+	users: users(sequelizeConnection, Sequelize.DataTypes),
+	todos: todos(sequelizeConnection, Sequelize.DataTypes),
 };

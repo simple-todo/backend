@@ -4,29 +4,18 @@ const bcrypt = require("bcrypt");
 const RegisterServices = require("../services/register");
 const ResponseTemplate = require("../helpers/ResponseTemplate");
 
-class RegisterController {
+// buat login nanti
+// let token = jwt.sign({ username, password, full_name }, "todosKredivo", {
+//   expiresIn: "24h" // expires in 24 hours
+// });
+
+class LoginController {
 	constructor() {
 		this.responseTemplate = new ResponseTemplate();
 		this.registerServices = new RegisterServices();
 	}
 
-	userAlreadyRegistered(data) {
-		const registered = data[1] === false ? true : false;
-		const message = "Success registered User";
-		const success = true;
-
-		if (registered) {
-			message = "Failed register, User already registed";
-			success = false;
-		}
-
-		return {
-			success,
-			message,
-		};
-	}
-
-	async addUser(req, res) {
+	async addUser(req, res, next) {
 		try {
 			const { username, password, full_name } = req.body;
 			const newUserProfile = {
@@ -37,12 +26,13 @@ class RegisterController {
 
 			const insertNewUser = await this.registerServices.addUser(newUserProfile);
 			const checkUserAlreadyRegistered = this.userAlreadyRegistered(insertNewUser);
+			console.log("checkUserAlreadyRegistered: ", checkUserAlreadyRegistered);
 
-			this.responseTemplate.responseSuccess(res, checkUserAlreadyRegistered);
+			// this.responseTemplate.responseSuccess(res, checkUserAlreadyRegistered);
 		} catch (error) {
 			this.responseTemplate.responseError(res, error);
 		}
 	}
 }
 
-module.exports = RegisterController;
+module.exports = LoginController;

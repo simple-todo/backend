@@ -1,24 +1,27 @@
 const Joi = require("joi");
 const ResponseTemplate = require("../helpers/ResponseTemplate");
 
-const responseTemplate = new ResponseTemplate();
-
 class RegisterValidationMiddleware {
+  constructor() {
+    this.responseTemplate = new ResponseTemplate();
+  }
+
   checkRegisterInput(req, res, next) {
     const failedValidation = message =>
-      responseTemplate.responseError(res, { message, status: 400 });
+      this.responseTemplate.responseError(res, { message, status: 400 });
 
     try {
+      // Body Contain
       const schema = Joi.object().keys({
         username: Joi.string().required(),
         password: Joi.string().required(),
         full_name: Joi.string().required()
       });
-      const passedParams = Joi.validate(req.body, schema);
+      const validateParams = Joi.validate(req.body, schema);
 
-      !passedParams.error
+      !validateParams.error
         ? next()
-        : failedValidation(passedParams.error.message);
+        : failedValidation(validateParams.error.message);
     } catch (error) {
       failedValidation("Failed validation");
       throw error;

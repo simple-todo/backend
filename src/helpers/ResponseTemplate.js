@@ -12,12 +12,22 @@ class ResponseTemplate {
       status: err.status || 400,
       detail: err.detail || "Bad request.",
       message: err.message || err.sqlMessage
-      // source: err.source || undefined,
-      // code: err.code || undefined,
-      // title: err.title || undefined,
     };
     errorJSON.errors.push(newError);
     res.json(errorJSON);
+  }
+
+  responseSuccess(res, data) {
+    res.setHeader("content-type", "application/vnd.api+json");
+    console.error("capture data ===>", data);
+
+    let newError = {
+      status: 200,
+      success: true,
+      data: data
+    };
+
+    res.json(newError);
   }
 }
 

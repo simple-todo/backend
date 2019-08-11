@@ -12,13 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       full_name: DataTypes.STRING,
       created_at: DataTypes.DATE,
-      updated_at: DataTypes.DATE,
-      deleted_at: DataTypes.DATE
+      updated_at: DataTypes.DATE
     },
     {
       tableName: "users",
-      freezeTableName: true,
-      timestamps: false,
+      timestamps: true,
       paranoid: false,
       underscored: true
     }
