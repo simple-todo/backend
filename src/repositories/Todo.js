@@ -10,7 +10,7 @@ class TodoRepo {
 	}
 
 	async getTodoByUserId(user_id) {
-		return todos.findAll({ where: { user_id } }, { raw: true, logging: false });
+		return todos.findAll({ where: { user_id }, order: [["id", "ASC"]], raw: true, logging: false });
 	}
 
 	async getTodoById(todo_id) {
